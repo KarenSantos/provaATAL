@@ -31,24 +31,23 @@ public class SuperSale10130 {
 			pessoas = sc.nextInt();
 			for (int j = 0; j < pessoas; j++) {
 				int pessoaCarrega = sc.nextInt();
-				ValorTotal += solve(pessoaCarrega, totalItens - 1);
+				ValorTotal += salePD(pessoaCarrega, totalItens - 1);
 			}
 			System.out.println(ValorTotal);
 		}
 		sc.close();
 	}
 	
-	private static int solve(int pessoaCarrega, int item) {
+	private static int salePD(int pessoaCarrega, int item) {
 		if (item < 0)
 			return 0;
 		else if (matrizPD[pessoaCarrega][item] != 0)
 			return matrizPD[pessoaCarrega][item];
 		else
-			if ((pessoaCarrega >= peso[item])) 
-				matrizPD[pessoaCarrega][item] = 
-				Math.max(solve(pessoaCarrega, item - 1), solve(pessoaCarrega - peso[item], item - 1) + valor[item]);
+			if ((pessoaCarrega < peso[item])) 
+				matrizPD[pessoaCarrega][item] = salePD(pessoaCarrega, item - 1);
 			else
-				matrizPD[pessoaCarrega][item] = solve(pessoaCarrega, item - 1);
+				matrizPD[pessoaCarrega][item] = Math.max(salePD(pessoaCarrega, item - 1), salePD(pessoaCarrega - peso[item], item - 1) + valor[item]);
 			return matrizPD[pessoaCarrega][item];	
 	}
 }

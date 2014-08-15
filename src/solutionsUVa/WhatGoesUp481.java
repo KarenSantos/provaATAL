@@ -29,20 +29,20 @@ public class WhatGoesUp481 {
 		Arrays.fill(best, Integer.MAX_VALUE);
 
 		for (int i = 0; i < numeros.length; i++) {
-			int l = 0;
-			int len = numeros.length - 1;
-			while (len > 0) {
-				len /= 2;
-				if (best[l + len] < numeros[i])
-					l += len + 1;
+			int pos = 0;
+			int tamanho = numeros.length - 1;
+			while (tamanho > 0) {
+				tamanho /= 2;
+				if (best[pos + tamanho] < numeros[i])
+					pos += tamanho + 1;
 			}
-			if (best[l] > numeros[i]) {
-				indices[l] = i;
-				best[l] = numeros[i];
-				if (l - 1 < 0) {
+			if (best[pos] > numeros[i]) {
+				indices[pos] = i;
+				best[pos] = numeros[i];
+				if (pos - 1 < 0) {
 					parent[i] = -1;
 				} else {
-					parent[i] = indices[l - 1];
+					parent[i] = indices[pos - 1];
 				}
 			}
 		}

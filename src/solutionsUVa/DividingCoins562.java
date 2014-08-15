@@ -1,43 +1,42 @@
 package solutionsUVa;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class DividingCoins562 {
 
 	public static void main(String[] args) {
-
+		
 		Scanner sc = new Scanner(System.in);
 		int cases = sc.nextInt();
 		
 		while (cases-- != 0) {
 			int numCoins = sc.nextInt();
 			int[] coins = new int[numCoins];
-			int sum = 0;
+			int somaTotal = 0;
 			
 			for (int i = 0; i < coins.length; ++i) {
 				coins[i] = sc.nextInt();
-				sum += coins[i];
+				somaTotal += coins[i];
 			}
 			
-			int[][] valores = new int[numCoins + 1][sum + 1];
+			int[][] valores = new int[numCoins + 1][somaTotal + 1];
 			
-			for (int i = 1; i <= numCoins; ++i)
-				for (int s = 1; s <= sum; ++s) {
-					valores[i][s] = valores[i - 1][s];
-					if (s - coins[i - 1] >= 0)
-						valores[i][s] = Math.max(valores[i - 1][s], coins[i - 1]
-								+ valores[i - 1][s - coins[i - 1]]);
+			for (int c = 1; c <= numCoins; c++)
+				for (int s = 1; s <= somaTotal; s++) {
+					valores[c][s] = valores[c - 1][s];
+					if (s - coins[c - 1] >= 0)
+						valores[c][s] = Math.max(coins[c - 1] + valores[c - 1][s - coins[c - 1]], valores[c - 1][s]);
 				}
-			int res = Integer.MAX_VALUE;
-			for (int i = 0; i <= sum; ++i)
-				res = Math.min(res, f(sum, valores[numCoins][i]));
-			System.out.println(res);
+			
+			int resposta = Integer.MAX_VALUE;
+			for (int i = 0; i <= somaTotal; ++i)
+				resposta = Math.min(resposta, f(somaTotal, valores[numCoins][i]));
+			System.out.println(resposta);
 		}
+		sc.close();
 	}
 
-	private static int f(int sum, int nowSum) {
-		return Math.abs((sum - nowSum) - nowSum);
+	private static int f(int somaTotal, int somaAtual) {
+		return Math.abs((somaTotal - somaAtual) - somaAtual);
 	}
 }

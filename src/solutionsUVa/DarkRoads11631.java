@@ -14,8 +14,8 @@ public class DarkRoads11631 {
 		StringTokenizer st;
 		int totalNos, totalArestas;
 		int no1, no2, peso;
-		ArrayList<Node> kurshal;
-		Union_Find_Set U;
+		ArrayList<Node> grafo;
+		UnionFindSet unionFind;
 		
 		while (true) {
 			st = new StringTokenizer(br.readLine());
@@ -25,35 +25,36 @@ public class DarkRoads11631 {
 			if (totalNos == 0 & totalArestas == 0)
 				break;
 
-			int all = 0;
+			int custoTotal = 0;
 			int custoPath = 0;
 			int arestasPath = 0;
 
-			kurshal = new ArrayList<Node>();
-			U = new Union_Find_Set(totalNos + 1);
+			grafo = new ArrayList<Node>();
+			unionFind = new UnionFindSet(totalNos + 1);
 
 			for (int i = 0; i < totalArestas; i++) {
 				st = new StringTokenizer(br.readLine());
 				no1 = Integer.parseInt(st.nextToken());
 				no2 = Integer.parseInt(st.nextToken());
 				peso = Integer.parseInt(st.nextToken());
-				all += peso;
-				kurshal.add(new Node(no1, no2, peso));
+				custoTotal += peso;
+				grafo.add(new Node(no1, no2, peso));
 			}
-			Collections.sort(kurshal);
+			
+			Collections.sort(grafo);
 
 			Node noDaVez;
-
+			
 			for (int i = 0; i < totalArestas | arestasPath < totalNos - 1; i++) {
-				noDaVez = kurshal.get(i);
-				if (!U.isInTheSameSet(noDaVez.no1, noDaVez.no2)) {
+				noDaVez = grafo.get(i);
+				if (!unionFind.isUnion(noDaVez.no1, noDaVez.no2)) {
 					arestasPath++;
 					custoPath += noDaVez.aresta;
-					U.merge(noDaVez.no1, noDaVez.no2);
+					unionFind.union(noDaVez.no1, noDaVez.no2);
 				}
 			}
 
-			System.out.println(all - custoPath);
+			System.out.println(custoTotal - custoPath);
 		}
 
 		br.close();
@@ -73,11 +74,11 @@ public class DarkRoads11631 {
 		}
 	}
 
-	public static class Union_Find_Set {
+	public static class UnionFindSet {
 
 		int[] parent;
 
-		Union_Find_Set(int x) {
+		UnionFindSet(int x) {
 			parent = new int[x];
 			for (int i = 0; i < x; i++)
 				parent[i] = i;
@@ -90,11 +91,11 @@ public class DarkRoads11631 {
 			return parent[a] = find(parent[a]);
 		}
 
-		void merge(int a, int b) {
+		void union(int a, int b) {
 			parent[find(a)] = find(b);
 		}
 
-		boolean isInTheSameSet(int a, int b) {
+		boolean isUnion(int a, int b) {
 			return find(a) == find(b);
 		}
 	}

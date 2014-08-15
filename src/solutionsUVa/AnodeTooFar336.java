@@ -12,10 +12,10 @@ public class AnodeTooFar336 {
 		Scanner sc = new Scanner(System.in);
 		int totalArestas = sc.nextInt();
 		int numCase = 1;
-		List<Integer> vertices = new ArrayList<Integer>();
-		int[][] arestas = new int[totalArestas * 2 + 100][2 + 100];
 
 		while (totalArestas != 0) {
+			List<Integer> vertices = new ArrayList<Integer>();
+			int[][] arestas = new int[totalArestas * 2 + 10][2];
 
 			for (int i = 0; i < totalArestas; i++) {
 				int no1 = sc.nextInt();
@@ -43,10 +43,10 @@ public class AnodeTooFar336 {
 				noInicial = sc.nextInt();
 				ttl = sc.nextInt();
 			}
-			vertices = new ArrayList<Integer>();
-			arestas = new int[totalArestas * 2 + 10][2];
+			
 			totalArestas = sc.nextInt();
 		}
+		sc.close();
 	}
 
 	private static int naoAlcancaveis(List<Integer> vertices, int[][] arestas,
@@ -58,7 +58,7 @@ public class AnodeTooFar336 {
 		Queue<Integer> fila = new LinkedList<Integer>();
 		fila.add(noInicial);
 		fila.add(ttl);
-
+		
 		marcados.add(noInicial);
 
 		while (!fila.isEmpty()) {
