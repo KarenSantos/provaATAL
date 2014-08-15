@@ -7,7 +7,7 @@ public class SuperSale10130 {
 	static int[][] matrizPD;
 	static int[] valor;
 	static int[] peso;
-
+	
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		

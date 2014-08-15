@@ -8,125 +8,94 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class DarkRoads11631 {
-	
+
 	public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
-        int m,n;
-        int a,b,w;
-        ArrayList<node> kurshal;
-        Union_Find_Set U ;
-        while(true)
-        {
-            st = new StringTokenizer(br.readLine());
-            m = Integer.parseInt(st.nextToken());
-            n = Integer.parseInt(st.nextToken());
-             
-            if(m==0&n==0) break;
-             
-            int all = 0,mst_cost = 0, edge=0;
-             
-            kurshal = new ArrayList<node>();
-            U = new Union_Find_Set(m+1);
-             
-            for (int i = 0; i < n; i++) {
-                st = new StringTokenizer(br.readLine());
-                a = Integer.parseInt(st.nextToken());
-                b = Integer.parseInt(st.nextToken());
-                w = Integer.parseInt(st.nextToken());
-                all+=w;
-                kurshal.add(new node(a,b,w));
-            }
-            Collections.sort(kurshal);
-             
-            node cur ;
-             
-            for (int i = 0; i < n | edge<m-1 ; i++) {
-                cur = kurshal.get(i);
-                if(!U.isInTheSameSet(cur.a, cur.b))
-                {
-                    edge++;
-                    mst_cost+=cur.w;
-                    U.merge(cur.a, cur.b);
-                }
-            }
-             
-            pw.println(all-mst_cost);
-             
-        }
-         
-        br.close();
-        pw.close();
-    }
-	
-	public static class node implements Comparable<node>
-    {
-        int a,b,w;
-        node(int a,int b,int w)
-        {
-            this.a = a;
-            this.b = b;
-            this.w = w;
-        }
- 
-        @Override
-        public int compareTo(node o) {
-            return this.w-o.w;
-        }
-         
-    }
-     
-     
-     
-     
-     
-    public static class Union_Find_Set {
- 
-        int[] parent;
-         
-        Union_Find_Set(int x)
-        {
-            parent = new int[x];
-            for (int i = 0; i < x; i++) parent[i] = i;
-        }
-         
-        int find(int a)
-        {
-            if(parent[a]==a) return a;
-            return parent[a] = find(parent[a]);
-        }
-         
-        void merge(int a,int b)
-        {
-            parent[find(a)] = find(b);
-        }
-         
-        boolean isInTheSameSet(int a, int b)
-        {
-            return find(a)==find(b);
-        }
- 
-    }
-	
-/*
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int totalNos, totalArestas;
+		int no1, no2, peso;
+		ArrayList<Node> kurshal;
+		Union_Find_Set U;
+		
+		while (true) {
+			st = new StringTokenizer(br.readLine());
+			totalNos = Integer.parseInt(st.nextToken());
+			totalArestas = Integer.parseInt(st.nextToken());
 
- Sort E edges by increasing weight
+			if (totalNos == 0 & totalArestas == 0)
+				break;
 
-T = empty set
+			int all = 0;
+			int custoPath = 0;
+			int arestasPath = 0;
 
-for (i=0; i<edgeList.length; i++)
+			kurshal = new ArrayList<Node>();
+			U = new Union_Find_Set(totalNos + 1);
 
-  if adding e=edgelist[i] does not form a cycle
+			for (int i = 0; i < totalArestas; i++) {
+				st = new StringTokenizer(br.readLine());
+				no1 = Integer.parseInt(st.nextToken());
+				no2 = Integer.parseInt(st.nextToken());
+				peso = Integer.parseInt(st.nextToken());
+				all += peso;
+				kurshal.add(new Node(no1, no2, peso));
+			}
+			Collections.sort(kurshal);
 
-    add e to T
+			Node noDaVez;
 
-  else ignore e
+			for (int i = 0; i < totalArestas | arestasPath < totalNos - 1; i++) {
+				noDaVez = kurshal.get(i);
+				if (!U.isInTheSameSet(noDaVez.no1, noDaVez.no2)) {
+					arestasPath++;
+					custoPath += noDaVez.aresta;
+					U.merge(noDaVez.no1, noDaVez.no2);
+				}
+			}
 
-T is an MST
+			System.out.println(all - custoPath);
+		}
 
- */
-	
-	
-	
+		br.close();
+	}
+
+	public static class Node implements Comparable<Node> {
+		int no1, no2, aresta;
+		Node(int a, int b, int w) {
+			this.no1 = a;
+			this.no2 = b;
+			this.aresta = w;
+		}
+
+		@Override
+		public int compareTo(Node o) {
+			return this.aresta - o.aresta;
+		}
+	}
+
+	public static class Union_Find_Set {
+
+		int[] parent;
+
+		Union_Find_Set(int x) {
+			parent = new int[x];
+			for (int i = 0; i < x; i++)
+				parent[i] = i;
+		}
+
+		int find(int a) {
+			if (parent[a] == a) {
+				return a;
+			}
+			return parent[a] = find(parent[a]);
+		}
+
+		void merge(int a, int b) {
+			parent[find(a)] = find(b);
+		}
+
+		boolean isInTheSameSet(int a, int b) {
+			return find(a) == find(b);
+		}
+	}
 }
